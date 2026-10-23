@@ -206,9 +206,12 @@ def main():
             print(f"  skip {s}: {e}")
 
     if not rows:
-        print("\nNo stock matches all conditions today. Try loosening "
-              "MIN_PULLBACK_PCT / SUPPORT_TOL_* in CONFIG.")
-        return
+         pd.DataFrame(columns=["Symbol", "Setup", "Support", "CMP", "SL",
+                                 "Target", "R:R", "Score"]).to_csv(
+               "scan_results.csv", index=False)
+           print("\nNo stock matches all conditions today. Try loosening "
+                 "MIN_PULLBACK_PCT / SUPPORT_TOL_* in CONFIG.")
+           return
 
     out = pd.DataFrame(rows).sort_values("Score", ascending=False)
     out.to_csv("scan_results.csv", index=False)
