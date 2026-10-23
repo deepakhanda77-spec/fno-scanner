@@ -18,10 +18,14 @@
              python-version: "3.11"
          - run: pip install -r requirements.txt
          - run: python fno_pullback_scanner.py
-         - name: Save results to repo
+        - name: Save results to repo
            run: |
-             git config user.name "github-actions"
-             git config user.email "actions@github.com"
-             git add scan_results.csv
-             git commit -m "Scan $(date -u +%F)" || echo "No changes"
-             git push
+             if [ -f scan_results.csv ]; then
+               git config user.name "github-actions"
+               git config user.email "actions@github.com"
+               git add scan_results.csv
+               git commit -m "Scan $(date -u +%F)" || echo "No changes"
+               git push
+             else
+               echo "No scan_results.csv today - no candidates."
+             fi
